@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import EventEmitter from 'node:events';
-import { OptionsProps, SendProps } from './interfaces';
+import { OptionsProps, SendProps } from './types';
 /**
  * ArtnetDMX
  */

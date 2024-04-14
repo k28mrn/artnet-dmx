@@ -1,6 +1,6 @@
 import dgram from 'node:dgram';
 import EventEmitter from 'node:events';
-import { OptionsProps, SendProps } from './interfaces';
+import { OptionsProps, SendProps } from './types';
 import { EventType, SendStatus } from './enums';
 import { BROADCAST, HEADER_DATA, MAX_CHANNELS, PORT } from './data';
 
