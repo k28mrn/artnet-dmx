@@ -13,7 +13,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _ArtnetDMX_instances, _ArtnetDMX_broadcastIp, _ArtnetDMX_maxChannels, _ArtnetDMX_options, _ArtnetDMX_socket, _ArtnetDMX_data, _ArtnetDMX_lastedData, _ArtnetDMX_init, _ArtnetDMX_setBroadcast, _ArtnetDMX_addEventListeners, _ArtnetDMX_onError;
+var _ArtnetDMX_instances, _ArtnetDMX_broadcastIp, _ArtnetDMX_maxChannels, _ArtnetDMX_options, _ArtnetDMX_socket, _ArtnetDMX_data, _ArtnetDMX_lastedData, _ArtnetDMX_init, _ArtnetDMX_setBroadcast, _ArtnetDMX_addEventListeners, _ArtnetDMX_removeEventListeners, _ArtnetDMX_onError;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArtnetDMX = void 0;
 const node_dgram_1 = __importDefault(require("node:dgram"));
@@ -46,6 +46,22 @@ class ArtnetDMX extends node_events_1.default {
                 });
             }
         });
+        /**
+         * Change the options
+         */
+        this.changeOptions = (options) => {
+            this.close();
+            __classPrivateFieldSet(this, _ArtnetDMX_options, { ...__classPrivateFieldGet(this, _ArtnetDMX_options, "f"), ...options }, "f");
+            __classPrivateFieldSet(this, _ArtnetDMX_socket, node_dgram_1.default.createSocket({ type: 'udp4', reuseAddr: true }), "f");
+            __classPrivateFieldGet(this, _ArtnetDMX_instances, "m", _ArtnetDMX_init).call(this);
+        };
+        /**
+         * Close the socket
+         */
+        this.close = () => {
+            __classPrivateFieldGet(this, _ArtnetDMX_instances, "m", _ArtnetDMX_removeEventListeners).call(this);
+            __classPrivateFieldGet(this, _ArtnetDMX_socket, "f").close();
+        };
         _ArtnetDMX_onError.set(this, (error) => {
             this.emit(enums_1.EventType.Error, error);
         });
@@ -114,4 +130,6 @@ _ArtnetDMX_broadcastIp = new WeakMap(), _ArtnetDMX_maxChannels = new WeakMap(), 
     __classPrivateFieldGet(this, _ArtnetDMX_instances, "m", _ArtnetDMX_addEventListeners).call(this);
 }, _ArtnetDMX_addEventListeners = function _ArtnetDMX_addEventListeners() {
     __classPrivateFieldGet(this, _ArtnetDMX_socket, "f").on("error", __classPrivateFieldGet(this, _ArtnetDMX_onError, "f"));
+}, _ArtnetDMX_removeEventListeners = function _ArtnetDMX_removeEventListeners() {
+    __classPrivateFieldGet(this, _ArtnetDMX_socket, "f").off("error", __classPrivateFieldGet(this, _ArtnetDMX_onError, "f"));
 };

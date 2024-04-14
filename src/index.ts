@@ -47,6 +47,24 @@ export class ArtnetDMX extends EventEmitter {
   };
 
   /**
+   * Change the options
+   */
+  changeOptions = (options: OptionsProps) => {
+    this.close();
+    this.#options = { ...this.#options, ...options };
+    this.#socket = dgram.createSocket({ type: 'udp4', reuseAddr: true });
+    this.#init();
+  };
+
+  /**
+   * Close the socket
+   */
+  close = () => {
+    this.#removeEventListeners();
+    this.#socket.close();
+  };
+
+  /**
    * Send data to the specified universe
    */
   send({ universe = 0, data, callback, }: SendProps) {
@@ -108,6 +126,10 @@ export class ArtnetDMX extends EventEmitter {
 
   #addEventListeners() {
     this.#socket.on("error", this.#onError);
+  }
+
+  #removeEventListeners() {
+    this.#socket.off("error", this.#onError);
   }
 
   #onError = (error: Error) => {
