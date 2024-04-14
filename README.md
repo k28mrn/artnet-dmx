@@ -1,5 +1,7 @@
 # artnet-dmx
 
+[![NPM version](https://badge.fury.io/js/artnet-dmx.svg)](http://badge.fury.io/js/artnet-dmx.svg)
+
 Art-Net DMX controller library
 
 ## Install
@@ -41,7 +43,9 @@ artnet.send({data: data})
 ## Methods
 
 **send({ data: Uint8Array })**
+
 **send({ data: Uint8Array, callback: (status: SendStatus, message?: string) => void; })**
+
 **send({ universe: number, data: Uint8Array, callback: (status: SendStatus, message?: string) => void; })**
 
 ## License
