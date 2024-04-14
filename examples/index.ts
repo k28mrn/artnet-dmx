@@ -1,6 +1,6 @@
-import { Artnet } from '../src/index';
+import { ArtnetDMX } from '../src/index';
 
-const artnet = new Artnet({ host: '100.0.0.10', });
+const artnet = new ArtnetDMX({ host: '100.0.0.10', });
 
 const exec = async () => {
   const data = new Uint8Array(512);

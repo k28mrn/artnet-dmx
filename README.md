@@ -13,9 +13,9 @@ Art-Net DMX controller library
 ## Usage
 
 ```javascript
-import { Artnet } from 'artnet-dmx';
+import { ArtnetDMX } from 'artnet-dmx';
 
-const artnet = new Artnet({ host: '192.168.0.100', });
+const artnetDmx = new ArtnetDMX({ host: '192.168.0.100', });
 const data = new Uint8Array(512);
 
 data[0] = 20;
@@ -26,10 +26,10 @@ data[4] = 0;
 data[6] = 0;
 data[7] = 0;
 
-artnet.send({data: data})
+artnetDmx.send({data: data})
 
 // or get callback
-// artnet.send({data: data, callback: (status, message)=>{
+// artnetDmx.send({data: data, callback: (status, message)=>{
 //   // status: SendStatus, message: string
 //   console.log(status, message);
 // }})

@@ -5,15 +5,15 @@ import { EventType, SendStatus } from './enums';
 import { BROADCAST, HEADER_DATA, MAX_CHANNELS, PORT } from './data';
 
 /**
- * Artnet 
+ * ArtnetDMX 
  */
-export class Artnet extends EventEmitter {
+export class ArtnetDMX extends EventEmitter {
   #broadcastIp = BROADCAST;
   #maxChannels = MAX_CHANNELS;
 
   #options: OptionsProps = {
     host: this.#broadcastIp, // Broadcast
-    port: PORT,        // Artnet port
+    port: PORT,        // ArtnetDMX port
   };
 
   #socket: dgram.Socket;
@@ -28,7 +28,7 @@ export class Artnet extends EventEmitter {
   }
 
   /**
-   * Initialize the Artnet instance
+   * Initialize the ArtnetDMX instance
    */
   #init() {
     this.#setBroadcast();
