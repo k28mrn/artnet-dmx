@@ -2,9 +2,9 @@
 import EventEmitter from 'node:events';
 import { OptionsProps, SendProps } from './interfaces';
 /**
- * Artnet
+ * ArtnetDMX
  */
-export declare class Artnet extends EventEmitter {
+export declare class ArtnetDMX extends EventEmitter {
     #private;
     constructor(options?: OptionsProps);
     /**
