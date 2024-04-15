@@ -15,10 +15,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _ArtnetDMX_instances, _ArtnetDMX_broadcastIp, _ArtnetDMX_maxChannels, _ArtnetDMX_options, _ArtnetDMX_socket, _ArtnetDMX_data, _ArtnetDMX_lastedData, _ArtnetDMX_init, _ArtnetDMX_setBroadcast, _ArtnetDMX_addEventListeners, _ArtnetDMX_removeEventListeners, _ArtnetDMX_onError;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ArtnetDMX = void 0;
+exports.ArtnetDMX = exports.SendStatus = void 0;
+var enums_1 = require("./enums");
+Object.defineProperty(exports, "SendStatus", { enumerable: true, get: function () { return enums_1.SendStatus; } });
 const node_dgram_1 = __importDefault(require("node:dgram"));
 const node_events_1 = __importDefault(require("node:events"));
-const enums_1 = require("./enums");
+const enums_2 = require("./enums");
 const data_1 = require("./data");
 /**
  * ArtnetDMX
@@ -63,7 +65,7 @@ class ArtnetDMX extends node_events_1.default {
             __classPrivateFieldGet(this, _ArtnetDMX_socket, "f").close();
         };
         _ArtnetDMX_onError.set(this, (error) => {
-            this.emit(enums_1.EventType.Error, error);
+            this.emit(enums_2.EventType.Error, error);
         });
         __classPrivateFieldSet(this, _ArtnetDMX_options, { ...__classPrivateFieldGet(this, _ArtnetDMX_options, "f"), ...options }, "f");
         __classPrivateFieldSet(this, _ArtnetDMX_socket, node_dgram_1.default.createSocket({ type: 'udp4', reuseAddr: true }), "f");
@@ -75,7 +77,7 @@ class ArtnetDMX extends node_events_1.default {
     send({ universe = 0, data, callback, }) {
         // Check if data is an array
         if (data.length !== __classPrivateFieldGet(this, _ArtnetDMX_maxChannels, "f")) {
-            callback?.(enums_1.SendStatus.error, `Data length must be ${__classPrivateFieldGet(this, _ArtnetDMX_maxChannels, "f")}`);
+            callback?.(enums_2.SendStatus.error, `Data length must be ${__classPrivateFieldGet(this, _ArtnetDMX_maxChannels, "f")}`);
             return;
         }
         let isChanged = false;
@@ -98,7 +100,7 @@ class ArtnetDMX extends node_events_1.default {
         }
         // Same data, no need to send
         if (!isChanged) {
-            callback?.(enums_1.SendStatus.noChange);
+            callback?.(enums_2.SendStatus.noChange);
             return;
         }
         // Universe
@@ -106,10 +108,10 @@ class ArtnetDMX extends node_events_1.default {
         const lowUni = universe & 0xff;
         // data length
         const length = __classPrivateFieldGet(this, _ArtnetDMX_data, "f")[universe].length;
-        const hightLen = (length >> 8) & 0xff;
+        const highLen = (length >> 8) & 0xff;
         const lowLen = length & 0xff;
         // DMX data header
-        const header = [...data_1.HEADER_DATA, highUni, lowUni, hightLen, lowLen];
+        const header = [...data_1.HEADER_DATA, highUni, lowUni, highLen, lowLen];
         // DMX data
         const combinedData = header.concat(__classPrivateFieldGet(this, _ArtnetDMX_data, "f")[universe]);
         const buffer = Buffer.from(combinedData);
@@ -117,10 +119,10 @@ class ArtnetDMX extends node_events_1.default {
         const { host, port } = __classPrivateFieldGet(this, _ArtnetDMX_options, "f");
         __classPrivateFieldGet(this, _ArtnetDMX_socket, "f").send(buffer, 0, buffer.length, port, host, (error) => {
             if (error) {
-                callback?.(enums_1.SendStatus.error, "Error sending data.");
+                callback?.(enums_2.SendStatus.error, "Error sending data.");
                 return;
             }
-            callback?.(enums_1.SendStatus.success);
+            callback?.(enums_2.SendStatus.success);
         });
     }
 }

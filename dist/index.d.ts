@@ -1,4 +1,6 @@
 /// <reference types="node" />
+export { SendStatus } from './enums';
+export { OptionsProps, SendProps } from './types';
 import EventEmitter from 'node:events';
 import { OptionsProps, SendProps } from './types';
 /**

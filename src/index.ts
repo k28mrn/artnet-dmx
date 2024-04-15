@@ -1,3 +1,6 @@
+export { SendStatus } from './enums';
+export { OptionsProps, SendProps } from './types';
+
 import dgram from 'node:dgram';
 import EventEmitter from 'node:events';
 import { OptionsProps, SendProps } from './types';
@@ -103,11 +106,11 @@ export class ArtnetDMX extends EventEmitter {
 
     // data length
     const length = this.#data[universe].length;
-    const hightLen = (length >> 8) & 0xff;
+    const highLen = (length >> 8) & 0xff;
     const lowLen = length & 0xff;
 
     // DMX data header
-    const header = [...HEADER_DATA, highUni, lowUni, hightLen, lowLen];
+    const header = [...HEADER_DATA, highUni, lowUni, highLen, lowLen];
 
     // DMX data
     const combinedData = header.concat(this.#data[universe]);
