@@ -1,4 +1,4 @@
-import { ArtnetDMX } from '../src/index';
+import { ArtnetDMX, SendProps, SendStatus } from '../src/index';
 
 const artnet = new ArtnetDMX({ host: '100.0.0.10', });
 
@@ -16,6 +16,9 @@ const exec = async () => {
     data: data,
     callback: (status, message) => {
       console.log(status, message);
+      if (status === SendStatus.error) {
+        throw new Error(message);
+      }
     }
   });
 };
