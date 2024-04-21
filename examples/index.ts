@@ -7,8 +7,9 @@ const exec = async () => {
   data[0] = 20;
   data[1] = 0;
   data[2] = 255;
-  data[3] = 255;
+  data[3] = 0;
   data[4] = 0;
+  data[5] = 0;
   data[6] = 0;
   data[7] = 0;
 

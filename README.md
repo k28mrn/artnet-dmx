@@ -1,6 +1,6 @@
 # artnet-dmx
 
-[![NPM version](https://badge.fury.io/js/artnet-dmx.svg)](http://badge.fury.io/js/artnet-dmx.svg)
+[![npm version](https://badge.fury.io/js/artnet-dmx.svg)](https://badge.fury.io/js/artnet-dmx)
 
 Art-Net DMX controller library
 
@@ -13,7 +13,7 @@ Art-Net DMX controller library
 ## Usage
 
 ```javascript
-import { ArtnetDMX } from 'artnet-dmx';
+import { ArtnetDMX, SendStatus } from 'artnet-dmx';
 
 const artnetDmx = new ArtnetDMX({ host: '192.168.0.100', });
 const data = new Uint8Array(512);
@@ -29,10 +29,15 @@ data[7] = 0;
 artnetDmx.send({data: data})
 
 // or get callback
-// artnetDmx.send({data: data, callback: (status, message)=>{
-//   // status: SendStatus, message: string
-//   console.log(status, message);
-// }})
+// artnet.send({
+//   data: data,
+//   callback: (status, message) => {
+//     console.log(status, message);
+//     if (status === SendStatus.error) {
+//       throw new Error(message);
+//     }
+//   }
+// });
 ```
 
 ## Options
