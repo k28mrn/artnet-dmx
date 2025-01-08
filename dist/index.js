@@ -79,6 +79,8 @@ class ArtnetDMX extends node_events_1.default {
      * Send data to the specified universe
      */
     send({ universe = 0, data, callback, }) {
+        if (__classPrivateFieldGet(this, _ArtnetDMX_isClosed, "f"))
+            return;
         // Check if data is an array
         if (data.length !== __classPrivateFieldGet(this, _ArtnetDMX_maxChannels, "f")) {
             callback?.(enums_2.SendStatus.error, `Data length must be ${__classPrivateFieldGet(this, _ArtnetDMX_maxChannels, "f")}`);

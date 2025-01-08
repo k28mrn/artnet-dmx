@@ -74,6 +74,7 @@ export class ArtnetDMX extends EventEmitter {
    * Send data to the specified universe
    */
   send({ universe = 0, data, callback, }: SendProps) {
+    if (this.#isClosed) return;
     // Check if data is an array
     if (data.length !== this.#maxChannels) {
       callback?.(SendStatus.error, `Data length must be ${this.#maxChannels}`);
