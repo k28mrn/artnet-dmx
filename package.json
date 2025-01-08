@@ -1,6 +1,6 @@
 {
   "name": "artnet-dmx",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Art-Net DMX controller library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -13,7 +13,7 @@ import { BROADCAST, HEADER_DATA, MAX_CHANNELS, PORT } from './data';
 export class ArtnetDMX extends EventEmitter {
   #broadcastIp = BROADCAST;
   #maxChannels = MAX_CHANNELS;
-
+  #isClosed = true;
   #options: OptionsProps = {
     host: this.#broadcastIp, // Broadcast
     port: PORT,        // ArtnetDMX port
@@ -34,6 +34,7 @@ export class ArtnetDMX extends EventEmitter {
    * Initialize the ArtnetDMX instance
    */
   #init() {
+    this.#isClosed = false;
     this.#setBroadcast();
     this.#addEventListeners();
   }
@@ -63,6 +64,8 @@ export class ArtnetDMX extends EventEmitter {
    * Close the socket
    */
   close = () => {
+    if (this.#isClosed) return;
+    this.#isClosed = true;
     this.#removeEventListeners();
     this.#socket.close();
   };
