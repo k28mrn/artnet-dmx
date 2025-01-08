@@ -13,7 +13,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _ArtnetDMX_instances, _ArtnetDMX_broadcastIp, _ArtnetDMX_maxChannels, _ArtnetDMX_options, _ArtnetDMX_socket, _ArtnetDMX_data, _ArtnetDMX_lastedData, _ArtnetDMX_init, _ArtnetDMX_setBroadcast, _ArtnetDMX_addEventListeners, _ArtnetDMX_removeEventListeners, _ArtnetDMX_onError;
+var _ArtnetDMX_instances, _ArtnetDMX_broadcastIp, _ArtnetDMX_maxChannels, _ArtnetDMX_isClosed, _ArtnetDMX_options, _ArtnetDMX_socket, _ArtnetDMX_data, _ArtnetDMX_lastedData, _ArtnetDMX_init, _ArtnetDMX_setBroadcast, _ArtnetDMX_addEventListeners, _ArtnetDMX_removeEventListeners, _ArtnetDMX_onError;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArtnetDMX = exports.SendStatus = void 0;
 var enums_1 = require("./enums");
@@ -31,6 +31,7 @@ class ArtnetDMX extends node_events_1.default {
         _ArtnetDMX_instances.add(this);
         _ArtnetDMX_broadcastIp.set(this, data_1.BROADCAST);
         _ArtnetDMX_maxChannels.set(this, data_1.MAX_CHANNELS);
+        _ArtnetDMX_isClosed.set(this, true);
         _ArtnetDMX_options.set(this, {
             host: __classPrivateFieldGet(this, _ArtnetDMX_broadcastIp, "f"), // Broadcast
             port: data_1.PORT, // ArtnetDMX port
@@ -61,6 +62,9 @@ class ArtnetDMX extends node_events_1.default {
          * Close the socket
          */
         this.close = () => {
+            if (__classPrivateFieldGet(this, _ArtnetDMX_isClosed, "f"))
+                return;
+            __classPrivateFieldSet(this, _ArtnetDMX_isClosed, true, "f");
             __classPrivateFieldGet(this, _ArtnetDMX_instances, "m", _ArtnetDMX_removeEventListeners).call(this);
             __classPrivateFieldGet(this, _ArtnetDMX_socket, "f").close();
         };
@@ -127,7 +131,8 @@ class ArtnetDMX extends node_events_1.default {
     }
 }
 exports.ArtnetDMX = ArtnetDMX;
-_ArtnetDMX_broadcastIp = new WeakMap(), _ArtnetDMX_maxChannels = new WeakMap(), _ArtnetDMX_options = new WeakMap(), _ArtnetDMX_socket = new WeakMap(), _ArtnetDMX_data = new WeakMap(), _ArtnetDMX_lastedData = new WeakMap(), _ArtnetDMX_setBroadcast = new WeakMap(), _ArtnetDMX_onError = new WeakMap(), _ArtnetDMX_instances = new WeakSet(), _ArtnetDMX_init = function _ArtnetDMX_init() {
+_ArtnetDMX_broadcastIp = new WeakMap(), _ArtnetDMX_maxChannels = new WeakMap(), _ArtnetDMX_isClosed = new WeakMap(), _ArtnetDMX_options = new WeakMap(), _ArtnetDMX_socket = new WeakMap(), _ArtnetDMX_data = new WeakMap(), _ArtnetDMX_lastedData = new WeakMap(), _ArtnetDMX_setBroadcast = new WeakMap(), _ArtnetDMX_onError = new WeakMap(), _ArtnetDMX_instances = new WeakSet(), _ArtnetDMX_init = function _ArtnetDMX_init() {
+    __classPrivateFieldSet(this, _ArtnetDMX_isClosed, false, "f");
     __classPrivateFieldGet(this, _ArtnetDMX_setBroadcast, "f").call(this);
     __classPrivateFieldGet(this, _ArtnetDMX_instances, "m", _ArtnetDMX_addEventListeners).call(this);
 }, _ArtnetDMX_addEventListeners = function _ArtnetDMX_addEventListeners() {
